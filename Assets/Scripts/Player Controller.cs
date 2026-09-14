@@ -48,10 +48,21 @@ public class PlayerController : MonoBehaviour
 
         Movement(moveVector);
         Look(mouseDelta);
+
+        Debug.Log(GameManager.sprintBoost);
     }
 
     void Movement(Vector2 moveVector)
     {
+        if (GameManager.sprintBoost == true)
+        {
+            movementSpeed = 20f;
+        }
+        else
+        {
+            movementSpeed = 10f;
+        }
+
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 

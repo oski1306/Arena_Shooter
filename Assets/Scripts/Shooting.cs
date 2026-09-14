@@ -32,13 +32,14 @@ public class Shooting : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+            
 
             if (Physics.Raycast(ray, out hit, range))
             {
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
-                    Destroy(hit.collider.gameObject);
-                    Debug.Log("Hit " + hit.collider.name);
+                    enemy.health = enemy.health - 20;
                 }
             }
 
