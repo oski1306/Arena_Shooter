@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class Shooting : MonoBehaviour
 {
     private InputAction shootInput;
     private Animator gunAnimator;
+    [SerializeField] private float range = 100f;
+    [SerializeField] private GameObject shootEffectSprite;
+    [SerializeField] private GameObject crosshair;
 
     void Start()
     {
@@ -16,7 +20,6 @@ public class Shooting : MonoBehaviour
     void Update()
     {
         Shoot();
-        Debug.Log(GameManager.canShoot);
     }
 
     void Shoot()
@@ -27,6 +30,18 @@ public class Shooting : MonoBehaviour
 
         if (shootInput.WasPressedThisFrame())
         {
+            RaycastHit hit;
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+
+            if (Physics.Raycast(ray, out hit, range))
+            {
+                if (hit.collider.gameObject.CompareTag("Enemy"))
+                {
+                    Destroy(hit.collider.gameObject);
+                    Debug.Log("Hit " + hit.collider.name);
+                }
+            }
+
             gunAnimator.SetBool("IsShooting", true);
             GameManager.canShoot = false;
         }     
@@ -36,6 +51,7 @@ public class Shooting : MonoBehaviour
     {
         gunAnimator.SetBool("IsPumping", true);
         gunAnimator.SetBool("IsShooting", false);
+        StartCoroutine(CrosshairCooldown());
     }
 
     void StopPump()
@@ -43,5 +59,23 @@ public class Shooting : MonoBehaviour
         gunAnimator.SetBool("IsPumping", false);
 
         GameManager.canShoot = true;
+    }
+
+    void EnableShootEffect()
+    {
+        shootEffectSprite.SetActive(false);
+        crosshair.SetActive(false);
+    }
+
+    void DisableShootEffect()
+    {
+        shootEffectSprite.SetActive(true);
+        
+    }
+
+    IEnumerator CrosshairCooldown()
+    {
+        yield return new WaitForSeconds(0.1f * Time.deltaTime);
+        crosshair.SetActive(true);
     }
 }
