@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float lookSensitivity = 0.2f;
     [SerializeField] private float lookAngleLimit = 90f;
 
+    [SerializeField] private GameObject sprintEffect;
+
     private Camera mainCamera;
     private CharacterController characterController;
 
@@ -49,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Movement(moveVector);
         Look(mouseDelta);
 
-        Debug.Log(GameManager.sprintBoost);
+        Debug.Log(GameManager.explosionBullets);
     }
 
     void Movement(Vector2 moveVector)
@@ -57,10 +59,12 @@ public class PlayerController : MonoBehaviour
         if (GameManager.sprintBoost == true)
         {
             movementSpeed = 20f;
+            sprintEffect.SetActive(true);
         }
         else
         {
             movementSpeed = 10f;
+            sprintEffect.SetActive(false);
         }
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
