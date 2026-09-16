@@ -5,21 +5,34 @@ using System.Collections;
 public class Shooting : MonoBehaviour
 {
     private InputAction shootInput;
+    private InputAction powerUp1;
+
     private Animator gunAnimator;
+
     [SerializeField] private float range = 100f;
     [SerializeField] private GameObject shootEffectSprite;
     [SerializeField] private GameObject crosshair;
+    [SerializeField] private Material hitMaterial;
+
 
     void Start()
     {
         gunAnimator = gameObject.GetComponent<Animator>();
+
         shootInput = InputSystem.actions.FindAction("Attack");
+        powerUp1 = InputSystem.actions.FindAction("PowerUp1");
+
         GameManager.canShoot = true;
     }
 
     void Update()
     {
         Shoot();
+
+        if (powerUp1.WasPressedThisFrame())
+        {
+            Debug.Log("1 is pressed!");
+        }
     }
 
     void Shoot()
@@ -37,9 +50,14 @@ public class Shooting : MonoBehaviour
             if (Physics.Raycast(ray, out hit, range))
             {
                 Enemy enemy = hit.collider.GetComponent<Enemy>();
+                MeshRenderer enemyMeshRenderer = hit.collider.GetComponent<MeshRenderer>();
+                Material enemyMaterial = enemyMeshRenderer.material;
+
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
+                    enemyMeshRenderer.material = hitMaterial;
                     enemy.health = enemy.health - 20;
+                    enemy.ChangeMaterial();
                 }
             }
 

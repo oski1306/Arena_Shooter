@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     void Update()
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
         Movement(moveVector);
         Look(mouseDelta);
 
-        Debug.Log(GameManager.explosionBullets);
+        //Debug.Log(GameManager.explosionBullets);
     }
 
     void Movement(Vector2 moveVector)

@@ -532,6 +532,7 @@ MonoBehaviour:
   range: 100
   shootEffectSprite: {fileID: 2055545419}
   crosshair: {fileID: 1820187793}
+  hitMaterial: {fileID: 2100000, guid: 8dfc6724c87b39e4aaee0a1430b6d89e, type: 2}
 --- !u!95 &53647854
 Animator:
   serializedVersion: 7
@@ -1789,7 +1790,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 4f5d9d96f9c53054897aa875849ab586, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
